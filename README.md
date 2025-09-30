@@ -23,10 +23,12 @@ A minimal Chrome extension for quickly switching between custom GPTs on chatgpt.
 
 ## Usage
 
-1. Visit [chatgpt.com](https://chatgpt.com)
+1. Visit [chatgpt.com](https://chatgpt.com) and log in
 2. Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac)
-3. Type to search or use arrow keys to navigate
+3. Type to fuzzy search your custom GPTs or use arrow keys to navigate
 4. Press `Enter` to switch to the selected GPT
+
+The extension automatically detects all your custom GPTs from the page - no manual configuration needed!
 
 ### Keyboard Shortcuts
 
@@ -35,18 +37,8 @@ A minimal Chrome extension for quickly switching between custom GPTs on chatgpt.
 - `Enter` - Switch to selected GPT
 - `Escape` - Close the menu
 
-## Customization
+### Features
 
-To add your own custom GPTs, edit the `customGPTs` array in [content.js](content.js):
-
-```javascript
-const customGPTs = [
-  { name: "GPT-4", url: "https://chatgpt.com/" },
-  { name: "Your Custom GPT", url: "https://chatgpt.com/g/g-XXXXX-your-gpt" }
-];
-```
-
-1. Find the URL of your custom GPT by visiting it on ChatGPT
-2. Add a new entry with the name and URL
-3. Save the file
-4. Reload the extension on `chrome://extensions/`
+- **Automatic GPT detection** - Scrapes your custom GPTs directly from the ChatGPT sidebar
+- **Fuzzy search** - Type partial letters to quickly find GPTs (e.g., "fm" matches "Finance mentor")
+- **SPA navigation** - Switches GPTs without page reloads for a smooth experience
