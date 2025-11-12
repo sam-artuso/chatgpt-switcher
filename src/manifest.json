@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Switcher",
+  "version": "1.0.0",
+  "description": "Quickly switch between custom GPTs on ChatGPT using a keyboard shortcut. Fuzzy search with autocomplete menu.",
+  "author": "Sam Artuso",
+  "homepage_url": "https://github.com/kyuzz/chatgpt-switcher",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [],
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_end"
+    }
+  ]
+}

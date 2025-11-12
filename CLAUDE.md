@@ -8,9 +8,12 @@ ChatGPT Switcher is a minimal Chrome extension (Manifest V3) that enables quick 
 
 ## Architecture
 
-- **manifest.json**: Chrome extension manifest (v3) defining content scripts that run on https://chatgpt.com/*
-- **content.js**: Main logic injected into chatgpt.com pages. Creates autocomplete UI, handles keyboard events, and manages navigation
-- **styles.css**: Styling for the autocomplete menu overlay with dark mode support
+All extension files are located in the `src/` directory:
+
+- **src/manifest.json**: Chrome extension manifest (v3) defining content scripts that run on https://chatgpt.com/*
+- **src/content.js**: Main logic injected into chatgpt.com pages. Creates autocomplete UI, handles keyboard events, and manages navigation
+- **src/styles.css**: Styling for the autocomplete menu overlay with dark mode support
+- **src/icons/**: Extension icons in multiple sizes (16x16, 48x48, 128x128)
 
 ## Key Implementation Details
 
@@ -21,7 +24,7 @@ The extension uses `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows/Linux) because
 - Calls `e.stopImmediatePropagation()` to prevent ChatGPT from receiving the event
 
 ### GPT List
-Currently hardcoded in the `customGPTs` array at the top of content.js. Format:
+The extension automatically detects custom GPTs by scraping the ChatGPT sidebar. GPTs are extracted from the page DOM and cached. The format is:
 ```javascript
 { name: "GPT Name", url: "https://chatgpt.com/g/g-XXXXX-gpt-name" }
 ```

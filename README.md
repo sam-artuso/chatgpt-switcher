@@ -4,21 +4,18 @@ A minimal Chrome extension for quickly switching between custom GPTs on chatgpt.
 
 ## Installation
 
-1. **Download the extension files** to a folder on your computer (all files should be in the same directory):
-   - `manifest.json`
-   - `content.js`
-   - `styles.css`
+1. **Clone or download this repository** to your computer
 
 2. **Open Chrome Extensions page**:
    - Navigate to `chrome://extensions/`
-   - Or click the three-dot menu � Extensions � Manage Extensions
+   - Or click the three-dot menu → Extensions → Manage Extensions
 
 3. **Enable Developer Mode**:
    - Toggle the "Developer mode" switch in the top-right corner
 
 4. **Load the extension**:
    - Click "Load unpacked"
-   - Select the folder containing the extension files
+   - Select the `src` folder from this repository
    - The extension should now appear in your extensions list
 
 ## Usage
@@ -33,7 +30,7 @@ The extension automatically detects all your custom GPTs from the page - no manu
 ### Keyboard Shortcuts
 
 - `Ctrl+Shift+P` / `Cmd+Shift+P` - Open/close the switcher menu
-- `�` / `�` - Navigate between GPTs
+- `↑` / `↓` - Navigate between GPTs
 - `Enter` - Switch to selected GPT
 - `Escape` - Close the menu
 
