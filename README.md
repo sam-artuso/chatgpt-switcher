@@ -2,6 +2,10 @@
 
 A minimal Chrome extension for quickly switching between custom GPTs on chatgpt.com using a keyboard shortcut.
 
+## Preview
+
+![ChatGPT Switcher in action](img/screenshot.png)
+
 ## Installation
 
 1. **Clone or download this repository** to your computer
