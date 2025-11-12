@@ -39,3 +39,15 @@ The extension automatically detects all your custom GPTs from the page - no manu
 - **Automatic GPT detection** - Scrapes your custom GPTs directly from the ChatGPT sidebar
 - **Fuzzy search** - Type partial letters to quickly find GPTs (e.g., "fm" matches "Finance mentor")
 - **SPA navigation** - Switches GPTs without page reloads for a smooth experience
+
+## Development
+
+### Building for Distribution
+
+To create a zip file ready for Chrome Web Store submission:
+
+```bash
+./scripts/pack.sh
+```
+
+This will create `dist/chrome-extension.zip` containing all the extension files.

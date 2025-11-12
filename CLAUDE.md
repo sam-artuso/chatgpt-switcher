@@ -15,6 +15,10 @@ All extension files are located in the `src/` directory:
 - **src/styles.css**: Styling for the autocomplete menu overlay with dark mode support
 - **src/icons/**: Extension icons in multiple sizes (16x16, 48x48, 128x128)
 
+Additional files:
+
+- **scripts/pack.sh**: Build script that creates `dist/chrome-extension.zip` for Chrome Web Store submission
+
 ## Key Implementation Details
 
 ### Keyboard Event Handling
