@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Custom ChatGPT switcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Quickly switch between custom GPTs on ChatGPT.com using a keyboard shortcut. Fuzzy search with autocomplete menu.",
   "author": "Samuele Artuso",
   "homepage_url": "https://github.com/kyuzz/chatgpt-switcher",
