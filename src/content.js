@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2025 Samuele Artuso
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 let customGPTs = [];
 let autocompleteMenu = null;
 let selectedIndex = 0;

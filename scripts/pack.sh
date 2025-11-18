@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Copyright (c) 2025 Samuele Artuso
+# SPDX-License-Identifier: BSD-3-Clause
 
 # Pack the Chrome extension for distribution
 

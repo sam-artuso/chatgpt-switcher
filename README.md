@@ -55,3 +55,7 @@ To create a zip file ready for Chrome Web Store submission:
 ```
 
 This will create `dist/chrome-extension.zip` containing all the extension files.
+
+## License
+
+This project is licensed under the BSD-3-Clause License - see the [LICENSE.md](LICENSE.md) file for details.

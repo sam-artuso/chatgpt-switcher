@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "ChatGPT Switcher",
+  "name": "Custom ChatGPT switcher",
   "version": "1.0.0",
-  "description": "Quickly switch between custom GPTs on ChatGPT using a keyboard shortcut. Fuzzy search with autocomplete menu.",
-  "author": "Sam Artuso",
+  "description": "Quickly switch between custom GPTs on ChatGPT.com using a keyboard shortcut. Fuzzy search with autocomplete menu.",
+  "author": "Samuele Artuso",
   "homepage_url": "https://github.com/kyuzz/chatgpt-switcher",
   "icons": {
     "16": "icons/icon16.png",
