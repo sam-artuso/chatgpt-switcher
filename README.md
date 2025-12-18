@@ -48,13 +48,23 @@ The extension automatically detects all your custom GPTs from the page - no manu
 
 ### Building for Distribution
 
-To create a zip file ready for Chrome Web Store submission:
+Before building, bump the version number in `manifest.json` (the Chrome Web Store requires a new version for each submission):
+
+```bash
+./scripts/bump-version.sh        # Bump patch version (default)
+./scripts/bump-version.sh minor  # Bump minor version
+./scripts/bump-version.sh major  # Bump major version
+```
+
+Then create a zip file ready for Chrome Web Store submission:
 
 ```bash
 ./scripts/pack.sh
 ```
 
 This will create `dist/chrome-extension.zip` containing all the extension files.
+
+To publish it on the Chrome Web Store, head to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
 
 ## License
 

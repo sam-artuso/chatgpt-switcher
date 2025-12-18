@@ -11,24 +11,23 @@ let selectedIndex = 0;
 function scrapeCustomGPTs() {
   const gpts = [];
 
-  // Find the <a> tag with href="/gpts"
-  const gptsLink = document.querySelector('a[href="/gpts"]');
+  // Find all <a> elements with href starting with /g/g- (custom GPT links)
+  // These are the custom GPT links in the sidebar
+  const gptLinks = document.querySelectorAll('a[href^="/g/g-"]');
 
-  if (gptsLink) {
-    // Get all sibling <a> elements after the /gpts link
-    let sibling = gptsLink.nextElementSibling;
+  gptLinks.forEach(link => {
+    // Get the GPT name from the link's text content
+    const name = link.textContent.trim();
 
-    while (sibling) {
-      if (sibling.tagName === 'A' && sibling.href && sibling.href.includes('/g/')) {
-        gpts.push({
-          name: sibling.textContent.trim(),
-          url: sibling.href,
-          element: sibling  // Store reference to the actual DOM element
-        });
-      }
-      sibling = sibling.nextElementSibling;
+    // Only add if we have a valid name
+    if (name) {
+      gpts.push({
+        name: name,
+        url: link.href,
+        element: link  // Store reference to the actual DOM element
+      });
     }
-  }
+  });
 
   return gpts;
 }
