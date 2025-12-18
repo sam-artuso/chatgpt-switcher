@@ -1,0 +1,21 @@
+{
+  "name": "chatgpt-switcher",
+  "version": "1.0.1",
+  "description": "Quickly switch between custom GPTs on ChatGPT.com using a keyboard shortcut",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "keywords": [
+    "chatgpt",
+    "chrome-extension",
+    "gpt",
+    "switcher"
+  ],
+  "author": "Samuele Artuso",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "jsdom": "^25.0.1",
+    "vitest": "^2.1.8"
+  }
+}

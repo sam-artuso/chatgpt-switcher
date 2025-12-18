@@ -16,6 +16,14 @@ function scrapeCustomGPTs() {
   const gptLinks = document.querySelectorAll('a[href^="/g/g-"]');
 
   gptLinks.forEach(link => {
+    const href = link.getAttribute('href');
+
+    // Filter out conversation links (/g/g-xxx/c/xxx) and project links (/g/g-p-xxx/project)
+    // We only want direct GPT links
+    if (href.includes('/c/') || href.includes('/project')) {
+      return;
+    }
+
     // Get the GPT name from the link's text content
     const name = link.textContent.trim();
 
@@ -222,4 +230,9 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
   init();
+}
+
+// Export for testing
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { scrapeCustomGPTs, fuzzyScore };
 }

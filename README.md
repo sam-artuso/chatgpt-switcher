@@ -46,6 +46,57 @@ The extension automatically detects all your custom GPTs from the page - no manu
 
 ## Development
 
+### Testing
+
+The extension includes snapshot tests that verify the scraper works correctly against saved ChatGPT HTML:
+
+```bash
+pnpm install  # Install dependencies
+pnpm test     # Run tests
+```
+
+Tests are located in `test/scraper.test.js` and use fixtures from `test/fixtures/`.
+
+#### Creating new test snapshots
+
+When ChatGPT updates their DOM structure or URL patterns, you'll need to create a new snapshot:
+
+1. **Capture the DOM:**
+   - Open ChatGPT in your browser and log in
+   - Open DevTools (F12 or right-click → Inspect)
+   - In the Elements tab, find the `<html>` tag at the very top
+   - Right-click on `<html>` → Copy → Copy outerHTML
+
+2. **Save the snapshot:**
+   ```bash
+   mkdir -p test/fixtures/YYYY-MM-DD
+   # Paste the copied HTML into the file
+   # (Use your editor or pbpaste > test/fixtures/YYYY-MM-DD/chatgpt.html)
+   ```
+
+3. **Create expected results:**
+   - Use Claude Code to generate `test/fixtures/YYYY-MM-DD/expected.json`:
+     ```
+     Parse test/fixtures/YYYY-MM-DD/chatgpt.html and extract all custom GPT links.
+     Create expected.json with an array of objects containing name and url for each GPT.
+     ```
+     The file `CLAUDE.md` contains instructions for Claude Code to carry out
+     this task correctly.
+   - Or create manually in the format:
+   ```json
+   [
+     {"name": "GPT Name", "url": "/g/g-xxxxx-gpt-name"}
+   ]
+   ```
+   - **Note**: URL patterns (currently `/g/g-...`) may change as ChatGPT evolves
+
+4. **Run tests:**
+   ```bash
+   pnpm test
+   ```
+
+The test suite automatically tests the most recent fixture only (older fixtures are kept for historical reference). When you add a new dated directory with a later date, tests will automatically switch to using that one.
+
 ### Building for Distribution
 
 Before building, bump the version number in `manifest.json` (the Chrome Web Store requires a new version for each submission):
