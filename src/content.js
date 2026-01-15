@@ -6,6 +6,11 @@
 let customGPTs = [];
 let autocompleteMenu = null;
 let selectedIndex = 0;
+let observer = null;
+let hasScrapedThisSession = false;
+
+// Cache key for localStorage
+const CACHE_KEY = 'chatgpt-switcher-gpts';
 
 // Scrape custom GPTs from the page
 function scrapeCustomGPTs() {
@@ -38,6 +43,92 @@ function scrapeCustomGPTs() {
   });
 
   return gpts;
+}
+
+// Load GPTs from localStorage cache
+function loadFromCache() {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      const gpts = JSON.parse(cached);
+      // Don't restore element references from cache, only name and url
+      return gpts.map(gpt => ({ name: gpt.name, url: gpt.url }));
+    }
+  } catch (e) {
+    console.error('Failed to load GPTs from cache:', e);
+  }
+  return null;
+}
+
+// Save GPTs to localStorage cache
+function saveToCache(gpts) {
+  try {
+    // Only save name and url (don't save DOM element references)
+    const cacheable = gpts.map(gpt => ({ name: gpt.name, url: gpt.url }));
+    localStorage.setItem(CACHE_KEY, JSON.stringify(cacheable));
+  } catch (e) {
+    console.error('Failed to save GPTs to cache:', e);
+  }
+}
+
+// Try to scrape and update cache (called by MutationObserver)
+function tryScrapeAndCache() {
+  // Only scrape once per page load
+  if (hasScrapedThisSession) {
+    return;
+  }
+
+  const gpts = scrapeCustomGPTs();
+
+  // Only consider it successful if we found at least one GPT
+  // This guards against scraping too early when the list is empty
+  if (gpts.length > 0) {
+    customGPTs = gpts;
+    saveToCache(gpts);
+    hasScrapedThisSession = true;
+
+    // Disconnect observer since we successfully scraped
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
+
+    // If menu is currently open and showing loading state, refresh it
+    if (autocompleteMenu && !autocompleteMenu.menu.classList.contains('gpt-switcher-hidden')) {
+      updateGPTList(autocompleteMenu.input.value);
+    }
+  }
+}
+
+// Start watching for GPT links to appear in the DOM
+function startObserver() {
+  // Create MutationObserver to detect when GPT links are added to the page
+  observer = new MutationObserver((mutations) => {
+    // Check if any GPT links have been added
+    for (const mutation of mutations) {
+      if (mutation.type === 'childList') {
+        // Look for any nodes that match our GPT link selector
+        for (const node of mutation.addedNodes) {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            const hasGPTLinks = node.querySelector && node.querySelector('a[href^="/g/g-"]');
+            if (hasGPTLinks || (node.tagName === 'A' && node.getAttribute('href')?.startsWith('/g/g-'))) {
+              tryScrapeAndCache();
+              return;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Start observing the entire document for changes
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+  // Also try to scrape immediately in case GPTs are already loaded
+  tryScrapeAndCache();
 }
 
 // Create autocomplete menu
@@ -97,6 +188,15 @@ function updateGPTList(searchTerm = '') {
   const { list } = autocompleteMenu;
   list.innerHTML = '';
 
+  // Show loading state if no GPTs are available yet
+  if (customGPTs.length === 0) {
+    const li = document.createElement('li');
+    li.textContent = 'Loading custom GPTs...';
+    li.className = 'gpt-switcher-item gpt-switcher-loading';
+    list.appendChild(li);
+    return [];
+  }
+
   const filtered = customGPTs
     .map(gpt => ({
       ...gpt,
@@ -134,8 +234,28 @@ function navigateToGPT(gpt) {
 function showMenu() {
   const { menu, input } = autocompleteMenu;
 
-  // Scrape GPTs from the page before showing menu
-  customGPTs = scrapeCustomGPTs();
+  // Load from cache if we don't have GPTs yet
+  if (customGPTs.length === 0) {
+    const cached = loadFromCache();
+    if (cached && cached.length > 0) {
+      customGPTs = cached;
+    }
+  }
+
+  // Try to scrape from the page if we haven't scraped this session
+  if (!hasScrapedThisSession) {
+    const liveGPTs = scrapeCustomGPTs();
+    if (liveGPTs.length > 0) {
+      customGPTs = liveGPTs;
+      saveToCache(liveGPTs);
+      hasScrapedThisSession = true;
+      // Disconnect observer if still running
+      if (observer) {
+        observer.disconnect();
+        observer = null;
+      }
+    }
+  }
 
   menu.classList.remove('gpt-switcher-hidden');
 
@@ -158,6 +278,15 @@ function hideMenu() {
 
 // Initialize
 function init() {
+  // Load from cache on startup
+  const cached = loadFromCache();
+  if (cached && cached.length > 0) {
+    customGPTs = cached;
+  }
+
+  // Start MutationObserver to detect when GPTs load
+  startObserver();
+
   autocompleteMenu = createAutocompleteMenu();
   const { menu, input, list } = autocompleteMenu;
 
