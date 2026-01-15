@@ -15,6 +15,7 @@ const CACHE_KEY = 'chatgpt-switcher-gpts';
 // Scrape custom GPTs from the page
 function scrapeCustomGPTs() {
   const gpts = [];
+  const seenUrls = new Set();
 
   // Find all <a> elements with href starting with /g/g- (custom GPT links)
   // These are the custom GPT links in the sidebar
@@ -29,6 +30,13 @@ function scrapeCustomGPTs() {
       return;
     }
 
+    // Deduplicate by URL (same GPT might appear multiple times)
+    const fullUrl = link.href;
+    if (seenUrls.has(fullUrl)) {
+      return;
+    }
+    seenUrls.add(fullUrl);
+
     // Get the GPT name from the link's text content
     const name = link.textContent.trim();
 
@@ -36,7 +44,7 @@ function scrapeCustomGPTs() {
     if (name) {
       gpts.push({
         name: name,
-        url: link.href,
+        url: fullUrl,
         element: link  // Store reference to the actual DOM element
       });
     }
