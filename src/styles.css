@@ -59,6 +59,16 @@
   color: white;
 }
 
+.gpt-switcher-item.gpt-switcher-loading {
+  cursor: default;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.gpt-switcher-item.gpt-switcher-loading:hover {
+  background-color: transparent;
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   #gpt-switcher-menu {
@@ -78,5 +88,13 @@
 
   .gpt-switcher-item:hover {
     background-color: #404040;
+  }
+
+  .gpt-switcher-item.gpt-switcher-loading {
+    color: #6b7280;
+  }
+
+  .gpt-switcher-item.gpt-switcher-loading:hover {
+    background-color: transparent;
   }
 }
