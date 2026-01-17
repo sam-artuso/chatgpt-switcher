@@ -1,6 +1,6 @@
 {
   "name": "chatgpt-switcher",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "Quickly switch between custom GPTs on ChatGPT.com using a keyboard shortcut",
   "type": "module",
   "scripts": {
