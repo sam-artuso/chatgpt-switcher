@@ -43,11 +43,28 @@
 }
 
 .gpt-switcher-item {
-  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
   cursor: pointer;
   font-size: 14px;
   color: #374151;
   transition: background-color 0.15s;
+}
+
+.gpt-switcher-image {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.gpt-switcher-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .gpt-switcher-item:hover {

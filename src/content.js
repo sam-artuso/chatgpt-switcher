@@ -40,11 +40,16 @@ function scrapeCustomGPTs() {
     // Get the GPT name from the link's text content
     const name = link.textContent.trim();
 
+    // Get the GPT image URL from the img element inside the link
+    const img = link.querySelector('img');
+    const imageUrl = img ? img.src : null;
+
     // Only add if we have a valid name
     if (name) {
       gpts.push({
         name: name,
         url: fullUrl,
+        image: imageUrl,
         element: link  // Store reference to the actual DOM element
       });
     }
@@ -59,8 +64,8 @@ function loadFromCache() {
     const cached = localStorage.getItem(CACHE_KEY);
     if (cached) {
       const gpts = JSON.parse(cached);
-      // Don't restore element references from cache, only name and url
-      return gpts.map(gpt => ({ name: gpt.name, url: gpt.url }));
+      // Don't restore element references from cache, only name, url, and image
+      return gpts.map(gpt => ({ name: gpt.name, url: gpt.url, image: gpt.image }));
     }
   } catch (e) {
     console.error('Failed to load GPTs from cache:', e);
@@ -71,8 +76,8 @@ function loadFromCache() {
 // Save GPTs to localStorage cache
 function saveToCache(gpts) {
   try {
-    // Only save name and url (don't save DOM element references)
-    const cacheable = gpts.map(gpt => ({ name: gpt.name, url: gpt.url }));
+    // Only save name, url, and image (don't save DOM element references)
+    const cacheable = gpts.map(gpt => ({ name: gpt.name, url: gpt.url, image: gpt.image }));
     localStorage.setItem(CACHE_KEY, JSON.stringify(cacheable));
   } catch (e) {
     console.error('Failed to save GPTs to cache:', e);
@@ -215,8 +220,23 @@ function updateGPTList(searchTerm = '') {
 
   filtered.forEach((gpt, index) => {
     const li = document.createElement('li');
-    li.textContent = gpt.name;
     li.className = 'gpt-switcher-item';
+
+    // Create image element if image URL exists
+    if (gpt.image) {
+      const img = document.createElement('img');
+      img.src = gpt.image;
+      img.alt = '';
+      img.className = 'gpt-switcher-image';
+      li.appendChild(img);
+    }
+
+    // Create text span for the name
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'gpt-switcher-name';
+    nameSpan.textContent = gpt.name;
+    li.appendChild(nameSpan);
+
     if (index === selectedIndex) {
       li.classList.add('gpt-switcher-selected');
     }

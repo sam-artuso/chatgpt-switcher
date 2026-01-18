@@ -61,6 +61,11 @@ describe('ChatGPT Switcher Extension', () => {
         const actualUrl = actualGpt.url.replace('https://chatgpt.com', '');
         expect(actualUrl).toBe(expectedGpt.url);
 
+        // Check image URL matches if expected
+        if (expectedGpt.image) {
+          expect(actualGpt.image).toBe(expectedGpt.image);
+        }
+
         // Verify element reference exists
         expect(actualGpt.element).toBeDefined();
       });
