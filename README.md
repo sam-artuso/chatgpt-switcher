@@ -117,6 +117,10 @@ This will create `dist/chrome-extension.zip` containing all the extension files.
 
 To publish it on the Chrome Web Store, head to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
 
-## License
+## Todo
 
-This project is licensed under the BSD-3-Clause License - see the [LICENSE.md](LICENSE.md) file for details.
+- [ ] Ability to clear cache of the Chrome extension
+- [ ] TypeScript + proper tooling
+- [ ] Investigate Chrome extension hot reload
+- [ ] Automate Chrome Web Store publishing
+- [ ] Move autocomplete when viewport size changes
