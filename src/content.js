@@ -244,6 +244,12 @@ function updateGPTList(searchTerm = '') {
     list.appendChild(li);
   });
 
+  // Scroll selected item into view
+  const selectedItem = list.querySelector('.gpt-switcher-selected');
+  if (selectedItem) {
+    selectedItem.scrollIntoView({ block: 'nearest' });
+  }
+
   return filtered;
 }
 
