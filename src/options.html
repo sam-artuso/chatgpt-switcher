@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ChatGPT Switcher Options</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 20px;
+      max-width: 400px;
+      margin: 0 auto;
+      background: #1a1a1a;
+      color: #e0e0e0;
+    }
+    h1 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    .section {
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #b0b0b0;
+    }
+    .section-description {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 12px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    button:active {
+      background: #1e40af;
+    }
+    .status {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #22c55e;
+      display: none;
+    }
+    .status.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>ChatGPT Switcher Options</h1>
+
+  <div class="section">
+    <div class="section-title">Cache</div>
+    <div class="section-description">
+      Clear the cached list of custom GPTs. The list will be refreshed the next time you open ChatGPT.
+    </div>
+    <button id="clear-cache">Clear Cache</button>
+    <div id="status" class="status">Cache cleared successfully!</div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

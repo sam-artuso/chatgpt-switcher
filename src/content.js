@@ -58,14 +58,22 @@ function scrapeCustomGPTs() {
   return gpts;
 }
 
-// Load GPTs from localStorage cache
-function loadFromCache() {
+// Check if chrome storage API is available (not available in test environment)
+function isChromeStorageAvailable() {
+  return typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local;
+}
+
+// Load GPTs from chrome.storage.local cache
+async function loadFromCache() {
+  if (!isChromeStorageAvailable()) {
+    return null;
+  }
   try {
-    const cached = localStorage.getItem(CACHE_KEY);
+    const result = await chrome.storage.local.get(CACHE_KEY);
+    const cached = result[CACHE_KEY];
     if (cached) {
-      const gpts = JSON.parse(cached);
       // Don't restore element references from cache, only name, url, and image
-      return gpts.map(gpt => ({ name: gpt.name, url: gpt.url, image: gpt.image }));
+      return cached.map(gpt => ({ name: gpt.name, url: gpt.url, image: gpt.image }));
     }
   } catch (e) {
     console.error('Failed to load GPTs from cache:', e);
@@ -73,12 +81,15 @@ function loadFromCache() {
   return null;
 }
 
-// Save GPTs to localStorage cache
-function saveToCache(gpts) {
+// Save GPTs to chrome.storage.local cache
+async function saveToCache(gpts) {
+  if (!isChromeStorageAvailable()) {
+    return;
+  }
   try {
     // Only save name, url, and image (don't save DOM element references)
     const cacheable = gpts.map(gpt => ({ name: gpt.name, url: gpt.url, image: gpt.image }));
-    localStorage.setItem(CACHE_KEY, JSON.stringify(cacheable));
+    await chrome.storage.local.set({ [CACHE_KEY]: cacheable });
   } catch (e) {
     console.error('Failed to save GPTs to cache:', e);
   }
@@ -265,12 +276,12 @@ function navigateToGPT(gpt) {
 }
 
 // Show menu
-function showMenu() {
+async function showMenu() {
   const { menu, input } = autocompleteMenu;
 
   // Load from cache if we don't have GPTs yet
   if (customGPTs.length === 0) {
-    const cached = loadFromCache();
+    const cached = await loadFromCache();
     if (cached && cached.length > 0) {
       customGPTs = cached;
     }
@@ -311,9 +322,9 @@ function hideMenu() {
 }
 
 // Initialize
-function init() {
+async function init() {
   // Load from cache on startup
-  const cached = loadFromCache();
+  const cached = await loadFromCache();
   if (cached && cached.length > 0) {
     customGPTs = cached;
   }
