@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+import "../assets/css/styles.css";
+
 // Type definitions
 export interface CustomGPT {
   name: string;
