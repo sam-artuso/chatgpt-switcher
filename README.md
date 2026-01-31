@@ -119,7 +119,7 @@ To publish it on the Chrome Web Store, head to the [Chrome Web Store Developer D
 
 ## Todo
 
-- [ ] Ability to clear cache of the Chrome extension
+- [x] Ability to clear cache of the Chrome extension
 - [ ] TypeScript + proper tooling
 - [ ] Investigate Chrome extension hot reload
 - [ ] Automate Chrome Web Store publishing
