@@ -7,5 +7,17 @@ node_modules/
 # Test coverage
 coverage/
 
+# TypeScript
+*.tsbuildinfo
+
+# IDE
+.idea/
+*.swp
+*.swo
+.vscode/
+
 # macOS
 .DS_Store
+
+# Lefthook
+.lefthook-local/

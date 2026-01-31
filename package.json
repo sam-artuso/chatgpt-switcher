@@ -4,7 +4,25 @@
   "description": "Quickly switch between custom GPTs on ChatGPT.com using a keyboard shortcut",
   "type": "module",
   "scripts": {
-    "test": "vitest run"
+    "build": "tsc && node scripts/copy-assets.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . && stylelint \"src/**/*.css\"",
+    "lint:fix": "eslint . --fix && stylelint \"src/**/*.css\" --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
+    "clean": "rm -rf dist/build",
+    "reset": "pnpm clean && pnpm install",
+    "knip": "knip",
+    "commit": "cz",
+    "commitlint": "commitlint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "keywords": [
     "chatgpt",
@@ -15,7 +33,23 @@
   "author": "Samuele Artuso",
   "license": "BSD-3-Clause",
   "devDependencies": {
+    "@commitlint/cli": "^20.4.0",
+    "@commitlint/config-conventional": "^20.4.0",
+    "@eslint/js": "^9.39.2",
+    "@types/chrome": "^0.1.36",
+    "@vitest/coverage-v8": "^2.1.9",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
     "jsdom": "^25.0.1",
+    "knip": "^5.82.1",
+    "lefthook": "^2.0.16",
+    "prettier": "^3.8.1",
+    "stylelint": "^17.1.0",
+    "stylelint-config-standard": "^40.0.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.54.0",
     "vitest": "^2.1.8"
   }
 }

@@ -17,9 +17,16 @@ A minimal Chrome extension for quickly switching between custom GPTs on chatgpt.
 3. **Enable Developer Mode**:
    - Toggle the "Developer mode" switch in the top-right corner
 
-4. **Load the extension**:
+4. **Build the extension**:
+
+   ```bash
+   pnpm install
+   pnpm build
+   ```
+
+5. **Load the extension**:
    - Click "Load unpacked"
-   - Select the `src` folder from this repository
+   - Select the `dist/build` folder from this repository
    - The extension should now appear in your extensions list
 
 ## Usage
@@ -46,6 +53,33 @@ The extension automatically detects all your custom GPTs from the page - no manu
 
 ## Development
 
+### Available Scripts
+
+```bash
+pnpm build          # Compile TypeScript and copy assets to dist/build/
+pnpm typecheck      # Type-check without emitting files
+pnpm lint           # Run ESLint and Stylelint
+pnpm lint:fix       # Auto-fix lint issues
+pnpm format         # Format all files with Prettier
+pnpm format:check   # Check formatting without writing
+pnpm test           # Run tests once
+pnpm test:watch     # Run tests in watch mode
+pnpm test:cov       # Run tests with coverage
+pnpm clean          # Remove build output
+pnpm reset          # Clean and reinstall dependencies
+pnpm knip           # Find unused dependencies and exports
+```
+
+### Pre-commit Hooks
+
+This project uses [Lefthook](https://github.com/evilmartians/lefthook) for pre-commit hooks. After installing dependencies, run:
+
+```bash
+pnpm lefthook install
+```
+
+Pre-commit hooks will run typecheck, lint, format check, and tests.
+
 ### Testing
 
 The extension includes snapshot tests that verify the scraper works correctly against saved ChatGPT HTML:
@@ -55,7 +89,7 @@ pnpm install  # Install dependencies
 pnpm test     # Run tests
 ```
 
-Tests are located in `test/scraper.test.js` and use fixtures from `test/fixtures/`.
+Tests are located in `test/scraper.test.ts` and use fixtures from `test/fixtures/`.
 
 #### Creating new test snapshots
 
@@ -68,6 +102,7 @@ When ChatGPT updates their DOM structure or URL patterns, you'll need to create 
    - Right-click on `<html>` → Copy → Copy outerHTML
 
 2. **Save the snapshot:**
+
    ```bash
    mkdir -p test/fixtures/YYYY-MM-DD
    # Paste the copied HTML into the file
@@ -83,11 +118,11 @@ When ChatGPT updates their DOM structure or URL patterns, you'll need to create 
      The file `CLAUDE.md` contains instructions for Claude Code to carry out
      this task correctly.
    - Or create manually in the format:
+
    ```json
-   [
-     {"name": "GPT Name", "url": "/g/g-xxxxx-gpt-name"}
-   ]
+   [{ "name": "GPT Name", "url": "/g/g-xxxxx-gpt-name" }]
    ```
+
    - **Note**: URL patterns (currently `/g/g-...`) may change as ChatGPT evolves
 
 4. **Run tests:**
@@ -107,20 +142,21 @@ Before building, bump the version number in `manifest.json` (the Chrome Web Stor
 ./scripts/bump-version.sh major  # Bump major version
 ```
 
-Then create a zip file ready for Chrome Web Store submission:
+Then build and create a zip file ready for Chrome Web Store submission:
 
 ```bash
+pnpm build
 ./scripts/pack.sh
 ```
 
-This will create `dist/chrome-extension.zip` containing all the extension files.
+This will create `dist/chrome-extension.zip` containing all the extension files from `dist/build/`.
 
 To publish it on the Chrome Web Store, head to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
 
 ## Todo
 
 - [x] Ability to clear cache of the Chrome extension
-- [ ] TypeScript + proper tooling
+- [x] TypeScript + proper tooling
 - [ ] Investigate Chrome extension hot reload
 - [ ] Automate Chrome Web Store publishing
 - [ ] Move autocomplete when viewport size changes

@@ -9,7 +9,7 @@
   background: white;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 25px rgb(0 0 0 / 15%);
   width: 400px;
   max-height: 400px;
   overflow: hidden;

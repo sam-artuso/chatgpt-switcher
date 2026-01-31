@@ -10,9 +10,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Define paths
-SRC_DIR="$PROJECT_ROOT/src"
+BUILD_DIR="$PROJECT_ROOT/dist/build"
 DIST_DIR="$PROJECT_ROOT/dist"
 ZIP_FILE="$DIST_DIR/chrome-extension.zip"
+
+# Ensure build directory exists
+if [ ! -d "$BUILD_DIR" ]; then
+    echo "Error: Build directory does not exist. Run 'pnpm build' first."
+    exit 1
+fi
 
 # Create dist directory if it doesn't exist
 mkdir -p "$DIST_DIR"
@@ -24,9 +30,9 @@ if [ -f "$ZIP_FILE" ]; then
 fi
 
 # Create the zip file
-echo "Packing extension from $SRC_DIR..."
-cd "$SRC_DIR"
-zip -r "$ZIP_FILE" . -x "*.DS_Store" -x "__MACOSX/*"
+echo "Packing extension from $BUILD_DIR..."
+cd "$BUILD_DIR"
+zip -r "$ZIP_FILE" . -x "*.DS_Store" -x "__MACOSX/*" -x "*.map"
 
 if [ $? -eq 0 ]; then
     echo "✓ Extension packed successfully!"
