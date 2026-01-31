@@ -53,10 +53,25 @@ The extension automatically detects all your custom GPTs from the page - no manu
 
 ## Development
 
+### Hot Reload
+
+For development with hot module replacement:
+
+```bash
+pnpm dev
+```
+
+This starts the Vite dev server with CRXJS. Load the extension from `dist/build/` in Chrome, then:
+
+- Changes to content scripts apply instantly without refreshing the page
+- CSS updates apply without page reload
+- No need to click "Refresh" in chrome://extensions
+
 ### Available Scripts
 
 ```bash
-pnpm build          # Compile TypeScript and copy assets to dist/build/
+pnpm dev            # Start dev server with hot reload
+pnpm build          # Build for production to dist/build/
 pnpm typecheck      # Type-check without emitting files
 pnpm lint           # Run ESLint and Stylelint
 pnpm lint:fix       # Auto-fix lint issues
@@ -158,7 +173,7 @@ To publish it on the Chrome Web Store, head to the [Chrome Web Store Developer D
 - [ ] Increase test coverage
 - [ ] Honour user's light/dark theme settings
 - [ ] Honour ChatGPT's accent colour
-- [ ] Investigate Chrome extension hot reload
+- [x] Investigate Chrome extension hot reload
 - [ ] Automate Chrome Web Store publishing
 - [ ] Move autocomplete when viewport size changes
 - [x] Ability to clear cache of the Chrome extension
