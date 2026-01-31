@@ -8,13 +8,21 @@ ChatGPT Switcher is a minimal Chrome extension (Manifest V3) that enables quick 
 
 ## Architecture
 
-Source files are located in the `src/` directory (TypeScript), and build output goes to `dist/build/`:
+Source files are located in the `src/` directory (TypeScript), static assets in `assets/`, and build output goes to `dist/build/`:
+
+**Source (src/):**
 
 - **src/manifest.json**: Chrome extension manifest (v3) defining content scripts that run on https://chatgpt.com/*
 - **src/content.ts**: Main logic injected into chatgpt.com pages. Creates autocomplete UI, handles keyboard events, and manages navigation
 - **src/options.ts**: Options page logic for cache clearing
-- **src/styles.css**: Styling for the autocomplete menu overlay with dark mode support
+
+**Assets (assets/):**
+
+- **assets/css/styles.css**: Styling for the autocomplete menu overlay with dark mode support
+- **assets/css/options.css**: Styling for the options page
+- **assets/html/options.html**: Options page HTML
 - **assets/icons/**: Extension icons in multiple sizes (16x16, 48x48, 128x128)
+- **assets/img/**: Screenshots and images for documentation
 
 ## Key Implementation Details
 

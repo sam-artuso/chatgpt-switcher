@@ -6,8 +6,8 @@
   "scripts": {
     "build": "tsc && node scripts/copy-assets.js",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . && stylelint \"src/**/*.css\"",
-    "lint:fix": "eslint . --fix && stylelint \"src/**/*.css\" --fix",
+    "lint": "eslint . && stylelint \"assets/**/*.css\"",
+    "lint:fix": "eslint . --fix && stylelint \"assets/**/*.css\" --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",

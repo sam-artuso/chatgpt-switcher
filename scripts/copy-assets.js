@@ -21,16 +21,22 @@ const distDir = join(projectRoot, "dist", "build");
 // Ensure dist/build exists
 mkdirSync(distDir, { recursive: true });
 
-// Copy assets from src/
-const srcAssets = ["manifest.json", "styles.css", "options.html"];
-srcAssets.forEach((asset) => {
-  const src = join(srcDir, asset);
-  const dest = join(distDir, asset);
-  cpSync(src, dest, { recursive: true });
-  console.log(`Copied ${asset}`);
-});
+// Copy manifest from src/
+cpSync(join(srcDir, "manifest.json"), join(distDir, "manifest.json"));
+console.log("Copied manifest.json");
 
-// Copy icons from assets/
+// Copy HTML from assets/html/
+cpSync(join(assetsDir, "html", "options.html"), join(distDir, "options.html"));
+console.log("Copied options.html");
+
+// Copy CSS from assets/css/
+cpSync(join(assetsDir, "css", "styles.css"), join(distDir, "styles.css"));
+console.log("Copied styles.css");
+
+cpSync(join(assetsDir, "css", "options.css"), join(distDir, "options.css"));
+console.log("Copied options.css");
+
+// Copy icons from assets/icons/
 cpSync(join(assetsDir, "icons"), join(distDir, "icons"), { recursive: true });
 console.log("Copied icons");
 
