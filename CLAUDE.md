@@ -14,7 +14,7 @@ Source files are located in the `src/` directory (TypeScript), and build output 
 - **src/content.ts**: Main logic injected into chatgpt.com pages. Creates autocomplete UI, handles keyboard events, and manages navigation
 - **src/options.ts**: Options page logic for cache clearing
 - **src/styles.css**: Styling for the autocomplete menu overlay with dark mode support
-- **src/icons/**: Extension icons in multiple sizes (16x16, 48x48, 128x128)
+- **assets/icons/**: Extension icons in multiple sizes (16x16, 48x48, 128x128)
 
 ## Key Implementation Details
 

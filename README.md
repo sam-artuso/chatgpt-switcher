@@ -4,7 +4,7 @@ A minimal Chrome extension for quickly switching between custom GPTs on chatgpt.
 
 ## Preview
 
-![ChatGPT Switcher in action](img/screenshot.png)
+![ChatGPT Switcher in action](assets/img/screenshot.png)
 
 ## Installation
 
