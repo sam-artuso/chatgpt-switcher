@@ -13,18 +13,18 @@ export interface CustomGPT {
   element?: HTMLAnchorElement;
 }
 
-interface CacheableGPT {
+export interface CacheableGPT {
   name: string;
   url: string;
   image?: string | null;
 }
 
-interface FuzzyResult {
+export interface FuzzyResult {
   score: number;
   matches: boolean;
 }
 
-interface AutocompleteMenu {
+export interface AutocompleteMenu {
   menu: HTMLDivElement;
   input: HTMLInputElement;
   list: HTMLUListElement;
@@ -87,12 +87,12 @@ export function scrapeCustomGPTs(): CustomGPT[] {
 }
 
 // Check if chrome storage API is available (not available in test environment)
-function isChromeStorageAvailable(): boolean {
+export function isChromeStorageAvailable(): boolean {
   return typeof chrome !== "undefined" && !!chrome.storage && !!chrome.storage.local;
 }
 
 // Load GPTs from chrome.storage.local cache
-async function loadFromCache(): Promise<CacheableGPT[] | null> {
+export async function loadFromCache(): Promise<CacheableGPT[] | null> {
   if (!isChromeStorageAvailable()) {
     return null;
   }
@@ -110,7 +110,7 @@ async function loadFromCache(): Promise<CacheableGPT[] | null> {
 }
 
 // Save GPTs to chrome.storage.local cache
-async function saveToCache(gpts: CustomGPT[]): Promise<void> {
+export async function saveToCache(gpts: CustomGPT[]): Promise<void> {
   if (!isChromeStorageAvailable()) {
     return;
   }
@@ -128,7 +128,7 @@ async function saveToCache(gpts: CustomGPT[]): Promise<void> {
 }
 
 // Try to scrape and update cache (called by MutationObserver)
-function tryScrapeAndCache(): void {
+export function tryScrapeAndCache(): void {
   // Only scrape once per page load
   if (hasScrapedThisSession) {
     return;
@@ -192,7 +192,7 @@ function startObserver(): void {
 }
 
 // Create autocomplete menu
-function createAutocompleteMenu(): AutocompleteMenu {
+export function createAutocompleteMenu(): AutocompleteMenu {
   const menu = document.createElement("div");
   menu.id = "gpt-switcher-menu";
   menu.className = "gpt-switcher-hidden";
@@ -244,7 +244,7 @@ export function fuzzyScore(text: string, query: string): FuzzyResult {
 }
 
 // Filter and display GPTs
-function updateGPTList(searchTerm = ""): CustomGPT[] {
+export function updateGPTList(searchTerm = ""): CustomGPT[] {
   if (!autocompleteMenu) return [];
 
   const { list } = autocompleteMenu;
@@ -303,7 +303,7 @@ function updateGPTList(searchTerm = ""): CustomGPT[] {
 }
 
 // Navigate to selected GPT
-function navigateToGPT(gpt: CustomGPT): void {
+export function navigateToGPT(gpt: CustomGPT): void {
   // Click the actual link element to use ChatGPT's SPA routing
   if (gpt.element) {
     gpt.element.click();
@@ -314,7 +314,7 @@ function navigateToGPT(gpt: CustomGPT): void {
 }
 
 // Show menu
-async function showMenu(): Promise<void> {
+export async function showMenu(): Promise<void> {
   if (!autocompleteMenu) return;
 
   const { menu, input } = autocompleteMenu;
@@ -356,10 +356,59 @@ async function showMenu(): Promise<void> {
 }
 
 // Hide menu
-function hideMenu(): void {
+export function hideMenu(): void {
   if (!autocompleteMenu) return;
   const { menu } = autocompleteMenu;
   menu.classList.add("gpt-switcher-hidden");
+}
+
+// Test helpers - only used for testing
+export function _resetForTesting(): void {
+  customGPTs = [];
+  autocompleteMenu = null;
+  selectedIndex = 0;
+  observer = null;
+  hasScrapedThisSession = false;
+}
+
+export function _setCustomGPTs(gpts: CustomGPT[]): void {
+  customGPTs = gpts;
+}
+
+export function _getCustomGPTs(): CustomGPT[] {
+  return customGPTs;
+}
+
+export function _setAutocompleteMenu(menu: AutocompleteMenu | null): void {
+  autocompleteMenu = menu;
+}
+
+export function _getAutocompleteMenu(): AutocompleteMenu | null {
+  return autocompleteMenu;
+}
+
+export function _setSelectedIndex(index: number): void {
+  selectedIndex = index;
+}
+
+export function _getSelectedIndex(): number {
+  return selectedIndex;
+}
+
+export function _setHasScrapedThisSession(value: boolean): void {
+  hasScrapedThisSession = value;
+}
+
+export function _getHasScrapedThisSession(): boolean {
+  return hasScrapedThisSession;
+}
+
+export function _setObserver(obs: MutationObserver | null): void {
+  observer = obs;
+}
+
+export function _getObserver(): MutationObserver | null {
+  return observer;
 }
 
 // Initialize

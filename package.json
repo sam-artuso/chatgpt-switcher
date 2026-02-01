@@ -13,7 +13,7 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:cov": "vitest run --coverage",
+    "cov": "vitest run --coverage",
     "clean": "rm -rf dist/build",
     "reset": "pnpm clean && pnpm install",
     "knip": "knip",
