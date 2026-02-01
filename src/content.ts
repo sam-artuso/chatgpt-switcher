@@ -440,9 +440,13 @@ async function init(): Promise<void> {
       return;
     }
 
-    // Escape to close
+    // Escape to close (backup for when blur handler doesn't catch it)
     if (e.key === "Escape" && !menu.classList.contains("gpt-switcher-hidden")) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
       hideMenu();
+      return;
     }
   };
 
@@ -453,6 +457,16 @@ async function init(): Promise<void> {
   input.addEventListener("input", (e) => {
     selectedIndex = 0;
     updateGPTList((e.target as HTMLInputElement).value);
+  });
+
+  // Hide menu when input loses focus (handles Escape which doesn't fire keydown)
+  input.addEventListener("blur", () => {
+    // Small delay to allow click events on menu items to fire first
+    setTimeout(() => {
+      if (!menu.contains(document.activeElement)) {
+        hideMenu();
+      }
+    }, 100);
   });
 
   // Navigation
