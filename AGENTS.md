@@ -132,6 +132,49 @@ pnpm format:check   # Check formatting without writing
 4. Refresh chatgpt.com
 5. Press `Cmd+Shift+P` / `Ctrl+Shift+P` to test
 
+### Inspecting ChatGPT's DOM
+
+When you need to inspect ChatGPT's live DOM (e.g., to find CSS variables, check selectors, or debug scraping), ask the developer to start Chrome/Brave with remote debugging enabled:
+
+```bash
+# macOS - Chrome
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
+
+# macOS - Brave
+/Applications/Brave\ Browser.app/Contents/MacOS/Brave\ Browser --remote-debugging-port=9222
+```
+
+Once the browser is running and navigated to chatgpt.com, use the `chrome-remote-interface` dev dependency to connect via the Chrome DevTools Protocol (CDP):
+
+```javascript
+const CDP = require("chrome-remote-interface");
+
+(async () => {
+  // List available pages
+  const targets = await CDP.List();
+  const chatgptPage = targets.find((t) => t.url.includes("chatgpt.com"));
+
+  // Connect to the page
+  const client = await CDP({ target: chatgptPage.id });
+  const { Runtime } = client;
+
+  // Execute JavaScript on the page
+  const result = await Runtime.evaluate({
+    expression: `
+      // Example: get CSS variables from the page
+      const style = getComputedStyle(document.documentElement);
+      JSON.stringify({
+        theme: document.documentElement.getAttribute('data-chat-theme'),
+        accent: style.getPropertyValue('--theme-entity-accent')
+      });
+    `,
+  });
+
+  console.log(JSON.parse(result.result.value));
+  await client.close();
+})();
+```
+
 ## Testing
 
 ### Test Fixtures and Snapshots
