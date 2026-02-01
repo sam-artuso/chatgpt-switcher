@@ -343,11 +343,8 @@ export async function showMenu(): Promise<void> {
   }
 
   menu.classList.remove("gpt-switcher-hidden");
-
-  // Center the menu
-  const rect = menu.getBoundingClientRect();
-  menu.style.left = `${(window.innerWidth - rect.width) / 2}px`;
   menu.style.top = "20%";
+  centerMenu();
 
   selectedIndex = 0;
   input.value = "";
@@ -362,6 +359,23 @@ export function hideMenu(): void {
   menu.classList.add("gpt-switcher-hidden");
 }
 
+// Center menu horizontally in the viewport
+function centerMenu(): void {
+  if (!autocompleteMenu) return;
+  const { menu } = autocompleteMenu;
+  const rect = menu.getBoundingClientRect();
+  menu.style.left = `${(window.innerWidth - rect.width) / 2}px`;
+}
+
+// Handle viewport resize - keep menu centered if visible
+function handleResize(): void {
+  if (!autocompleteMenu) return;
+  const { menu } = autocompleteMenu;
+  if (!menu.classList.contains("gpt-switcher-hidden")) {
+    centerMenu();
+  }
+}
+
 // Test helpers - only used for testing
 export function _resetForTesting(): void {
   customGPTs = [];
@@ -369,6 +383,14 @@ export function _resetForTesting(): void {
   selectedIndex = 0;
   observer = null;
   hasScrapedThisSession = false;
+}
+
+export function _centerMenu(): void {
+  centerMenu();
+}
+
+export function _handleResize(): void {
+  handleResize();
 }
 
 export function _setCustomGPTs(gpts: CustomGPT[]): void {
@@ -424,6 +446,9 @@ async function init(): Promise<void> {
 
   autocompleteMenu = createAutocompleteMenu();
   const { menu, input } = autocompleteMenu;
+
+  // Keep menu centered on viewport resize
+  window.addEventListener("resize", handleResize);
 
   // Keyboard shortcuts
   const keyHandler = (e: KeyboardEvent): void => {

@@ -15,6 +15,8 @@ import {
   _setHasScrapedThisSession,
   _getSelectedIndex,
   _getCustomGPTs,
+  _centerMenu,
+  _handleResize,
   type CustomGPT,
 } from "../src/content";
 
@@ -178,5 +180,132 @@ describe("showMenu", () => {
 
     expect(menu.menu.style.top).toBe("20%");
     expect(menu.menu.style.left).toBeDefined();
+  });
+});
+
+describe("centerMenu", () => {
+  beforeEach(() => {
+    document.body.innerHTML = "";
+    _resetForTesting();
+  });
+
+  it("should do nothing if autocompleteMenu is null", () => {
+    _setAutocompleteMenu(null);
+    expect(() => _centerMenu()).not.toThrow();
+  });
+
+  it("should center menu horizontally based on window width", () => {
+    const menu = createAutocompleteMenu();
+    _setAutocompleteMenu(menu);
+
+    // Set a known width for the menu
+    Object.defineProperty(menu.menu, "getBoundingClientRect", {
+      value: () => ({ width: 400, height: 300, top: 0, left: 0, right: 400, bottom: 300 }),
+    });
+
+    // Mock window.innerWidth
+    const originalInnerWidth = window.innerWidth;
+    Object.defineProperty(window, "innerWidth", { value: 1000, writable: true });
+
+    _centerMenu();
+
+    // Expected left = (1000 - 400) / 2 = 300
+    expect(menu.menu.style.left).toBe("300px");
+
+    // Restore
+    Object.defineProperty(window, "innerWidth", { value: originalInnerWidth, writable: true });
+  });
+
+  it("should recalculate position when window width changes", () => {
+    const menu = createAutocompleteMenu();
+    _setAutocompleteMenu(menu);
+
+    Object.defineProperty(menu.menu, "getBoundingClientRect", {
+      value: () => ({ width: 400, height: 300, top: 0, left: 0, right: 400, bottom: 300 }),
+    });
+
+    const originalInnerWidth = window.innerWidth;
+
+    // First width
+    Object.defineProperty(window, "innerWidth", { value: 1000, writable: true });
+    _centerMenu();
+    expect(menu.menu.style.left).toBe("300px");
+
+    // Resize to smaller width
+    Object.defineProperty(window, "innerWidth", { value: 600, writable: true });
+    _centerMenu();
+    // Expected left = (600 - 400) / 2 = 100
+    expect(menu.menu.style.left).toBe("100px");
+
+    // Restore
+    Object.defineProperty(window, "innerWidth", { value: originalInnerWidth, writable: true });
+  });
+});
+
+describe("handleResize", () => {
+  beforeEach(() => {
+    document.body.innerHTML = "";
+    _resetForTesting();
+  });
+
+  it("should do nothing if autocompleteMenu is null", () => {
+    _setAutocompleteMenu(null);
+    expect(() => _handleResize()).not.toThrow();
+  });
+
+  it("should not center menu if it is hidden", () => {
+    const menu = createAutocompleteMenu();
+    _setAutocompleteMenu(menu);
+    // Menu starts hidden by default
+
+    const originalLeft = menu.menu.style.left;
+    _handleResize();
+
+    // Position should not change
+    expect(menu.menu.style.left).toBe(originalLeft);
+  });
+
+  it("should center menu if it is visible", () => {
+    const menu = createAutocompleteMenu();
+    _setAutocompleteMenu(menu);
+    menu.menu.classList.remove("gpt-switcher-hidden");
+
+    Object.defineProperty(menu.menu, "getBoundingClientRect", {
+      value: () => ({ width: 400, height: 300, top: 0, left: 0, right: 400, bottom: 300 }),
+    });
+
+    const originalInnerWidth = window.innerWidth;
+    Object.defineProperty(window, "innerWidth", { value: 800, writable: true });
+
+    _handleResize();
+
+    // Expected left = (800 - 400) / 2 = 200
+    expect(menu.menu.style.left).toBe("200px");
+
+    Object.defineProperty(window, "innerWidth", { value: originalInnerWidth, writable: true });
+  });
+
+  it("should update position when viewport is resized while menu is visible", () => {
+    const menu = createAutocompleteMenu();
+    _setAutocompleteMenu(menu);
+    menu.menu.classList.remove("gpt-switcher-hidden");
+
+    Object.defineProperty(menu.menu, "getBoundingClientRect", {
+      value: () => ({ width: 400, height: 300, top: 0, left: 0, right: 400, bottom: 300 }),
+    });
+
+    const originalInnerWidth = window.innerWidth;
+
+    // Initial size
+    Object.defineProperty(window, "innerWidth", { value: 1200, writable: true });
+    _handleResize();
+    expect(menu.menu.style.left).toBe("400px");
+
+    // Simulate viewport resize (e.g., DevTools opened)
+    Object.defineProperty(window, "innerWidth", { value: 800, writable: true });
+    _handleResize();
+    expect(menu.menu.style.left).toBe("200px");
+
+    Object.defineProperty(window, "innerWidth", { value: originalInnerWidth, writable: true });
   });
 });
