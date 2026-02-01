@@ -59,6 +59,62 @@ pnpm build          # Compile TypeScript and copy assets to dist/build/
 pnpm typecheck      # Type-check without emitting files
 ```
 
+**Note**: The `dist/build/` directory is only used to test the Chrome extension locally by loading it as an unpacked extension in `chrome://extensions/`.
+
+**DO NOT run `pnpm dev`**: The developer will handle running the Vite dev server with hot reload for development purposes. Agents should not start the dev server themselves.
+
+### Publishing
+
+When preparing the extension for publication on the Chrome Web Store:
+
+1. Bump the version number in `manifest.json` using the provided scripts:
+
+   ```bash
+   ./scripts/bump-version.sh        # Bump patch version (default)
+   ./scripts/bump-version.sh minor  # Bump minor version
+   ./scripts/bump-version.sh major  # Bump major version
+   ```
+
+2. Build and package for distribution:
+
+   ```bash
+   pnpm build
+   ./scripts/pack.sh
+   ```
+
+   This creates `dist/chrome-extension.zip` ready for Chrome Web Store submission.
+
+**Note**: When publishing, the build in `dist/build/` is irrelevant to the final packaged extension in `dist/chrome-extension.zip`.
+
+### Pre-commit Hooks
+
+This project uses [Lefthook](https://github.com/evilmartians/lefthook) for pre-commit hooks. After installing dependencies:
+
+```bash
+pnpm lefthook install
+```
+
+Pre-commit hooks automatically run:
+
+- Type checking (`pnpm typecheck`)
+- Linting (`pnpm lint`)
+- Format checking (`pnpm format:check`)
+- Tests (`pnpm test`)
+
+### Git Remotes
+
+This repository has two origins configured:
+
+- **origin**: git@gitlab.com:kYuZz/chatgpt-switcher.git
+- **github**: git@github.com:sam-artuso/chatgpt-switcher.git
+
+**Whenever asked to push changes, push to both origins**:
+
+```bash
+git push origin
+git push github
+```
+
 ### Linting and Formatting
 
 ```bash
