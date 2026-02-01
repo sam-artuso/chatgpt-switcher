@@ -17,13 +17,7 @@
     "clean": "rm -rf dist/build",
     "reset": "pnpm clean && pnpm install",
     "knip": "knip",
-    "commit": "cz",
     "commitlint": "commitlint"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
   },
   "keywords": [
     "chatgpt",
@@ -40,8 +34,6 @@
     "@eslint/js": "^9.39.2",
     "@types/chrome": "^0.1.36",
     "@vitest/coverage-v8": "^2.1.9",
-    "commitizen": "^4.3.1",
-    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "jsdom": "^25.0.1",
