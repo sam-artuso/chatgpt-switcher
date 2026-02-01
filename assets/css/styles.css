@@ -86,32 +86,30 @@
   background-color: transparent;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  #gpt-switcher-menu {
-    background: #2d2d2d;
-    border-color: #404040;
-  }
+/* Dark mode support - follows ChatGPT's theme setting */
+html.dark #gpt-switcher-menu {
+  background: #2d2d2d;
+  border-color: #404040;
+}
 
-  .gpt-switcher-input {
-    background: #2d2d2d;
-    color: white;
-    border-bottom-color: #404040;
-  }
+html.dark .gpt-switcher-input {
+  background: #2d2d2d;
+  color: white;
+  border-bottom-color: #404040;
+}
 
-  .gpt-switcher-item {
-    color: #e5e7eb;
-  }
+html.dark .gpt-switcher-item {
+  color: #e5e7eb;
+}
 
-  .gpt-switcher-item:hover {
-    background-color: #404040;
-  }
+html.dark .gpt-switcher-item:hover {
+  background-color: #404040;
+}
 
-  .gpt-switcher-item.gpt-switcher-loading {
-    color: #6b7280;
-  }
+html.dark .gpt-switcher-item.gpt-switcher-loading {
+  color: #6b7280;
+}
 
-  .gpt-switcher-item.gpt-switcher-loading:hover {
-    background-color: transparent;
-  }
+html.dark .gpt-switcher-item.gpt-switcher-loading:hover {
+  background-color: transparent;
 }
