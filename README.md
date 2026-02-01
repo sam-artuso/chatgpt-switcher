@@ -125,12 +125,12 @@ When ChatGPT updates their DOM structure or URL patterns, you'll need to create 
    ```
 
 3. **Create expected results:**
-   - Use Claude Code to generate `test/fixtures/YYYY-MM-DD/expected.json`:
+   - Use an AI coding agent to generate `test/fixtures/YYYY-MM-DD/expected.json`:
      ```
      Parse test/fixtures/YYYY-MM-DD/chatgpt.html and extract all custom GPT links.
      Create expected.json with an array of objects containing name and url for each GPT.
      ```
-     The file `CLAUDE.md` contains instructions for Claude Code to carry out
+     The file `AGENTS.md` contains instructions for AI coding agents to carry out
      this task correctly.
    - Or create manually in the format:
 
