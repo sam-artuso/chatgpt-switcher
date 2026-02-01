@@ -170,10 +170,10 @@ To publish it on the Chrome Web Store, head to the [Chrome Web Store Developer D
 
 ## Todo
 
-- [x] Honour user's light/dark theme settings
-- [ ] Honour ChatGPT's accent colour
 - [ ] Move autocomplete when viewport size changes
 - [ ] Automate Chrome Web Store publishing
+- [x] Honour user's light/dark theme settings
+- [x] Honour ChatGPT's accent colour
 - [x] Increase test coverage
 - [x] Investigate Chrome extension hot reload
 - [x] Ability to clear cache of the Chrome extension

@@ -31,7 +31,7 @@
 }
 
 .gpt-switcher-input:focus {
-  border-bottom-color: #10a37f;
+  border-bottom-color: var(--theme-entity-accent);
 }
 
 .gpt-switcher-list {
@@ -72,7 +72,7 @@
 }
 
 .gpt-switcher-item.gpt-switcher-selected {
-  background-color: #10a37f;
+  background-color: var(--theme-entity-accent);
   color: white;
 }
 
