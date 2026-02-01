@@ -170,8 +170,9 @@ To publish it on the Chrome Web Store, head to the [Chrome Web Store Developer D
 
 ## Todo
 
-- [x] Move autocomplete when viewport size changes
+- [ ] Options disappeared
 - [ ] Automate Chrome Web Store publishing
+- [x] Move autocomplete when viewport size changes
 - [x] Honour user's light/dark theme settings
 - [x] Honour ChatGPT's accent colour
 - [x] Increase test coverage
